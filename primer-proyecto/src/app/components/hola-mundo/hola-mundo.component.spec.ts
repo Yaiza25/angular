@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { HolaMundoComponent } from './hola-mundo.component';
 
 describe('HolaMundoComponent', () => {
@@ -18,5 +19,10 @@ describe('HolaMundoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should chage to false variable', () => {
+    component.alternarDivs();
+    expect(component.mostarDiv).toBeTrue();
   });
 });

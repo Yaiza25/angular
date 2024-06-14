@@ -1,3 +1,5 @@
+
+
 export interface PeliculaModel {
     id: number;
     titulo: string;
@@ -11,9 +13,9 @@ export interface PeliculaModel {
     rating: number;
 }
 
-// Lo puedo hacer tambien como clase
+//Lo puedo hacer tambien como clase
 /*export class PeliculaModel {
-    constructor (
+    constructor(
         public id: number,
         public titulo: string,
         public director: string,
@@ -24,5 +26,5 @@ export interface PeliculaModel {
         public imagen: string,
         public precio: number,
         public rating: number
-    ) {}
+    ) { }
 }*/
