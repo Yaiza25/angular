@@ -1,42 +1,74 @@
-<p>formulario-agregar works!</p>
+<h3 class="mb-3">Formulario Agregar</h3>
 
-<form [formGroup]="contactoForm">
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="mb-3">
     <div class="form-group">
-      <label for="id">ID</label>
-      <input type="number" id="id" class="form-control" formControlName="id">
-      <div *ngIf="contactoForm.get('id')?.invalid && contactoForm.get('id')?.touched" class="text-danger">
-        ID es requerido y debe ser un número.
+      <label for="txtNombre" class="form-label">Nombre<span class="text-danger">*</span></label>
+      <input type="text" id="txtNombre" class="form-control" [formControlName]="campos.nombre">
+      
+      <div class="text-danger text-end" *ngIf="form.get(campos.nombre)?.invalid && !form.get(campos.nombre)?.pristine">
+        <div *ngIf="form.get('nombre')?.hasError('required')">
+          El campo nombre es requerido
+        </div>
+        <div *ngIf="form.get('nombre')?.hasError('minlength')">
+          El campo es demasiado corto
+        </div>
+        <div *ngIf="form.get('nombre')?.hasError('maxlength')">
+          El campo es demasiado largo
+        </div>
       </div>
     </div>
-  
+  </div>
+
+  <div class="mb-3">
     <div class="form-group">
-      <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" class="form-control" formControlName="nombre">
-      <div *ngIf="contactoForm.get('nombre')?.invalid && contactoForm.get('nombre')?.touched" class="text-danger">
-        Nombre es requerido.
-      </div>
+      <label for="txtDocumento" class="form-label">Documento<span class="text-danger">*</span></label>
+      <input type="number" id="txtDocumento" class="form-control" formControlName="documento">
     </div>
-  
+  </div>
+
+  <div class="mb-3">
     <div class="form-group">
-      <label for="fechaNacimiento">Fecha de Nacimiento</label>
-      <input type="date" id="fechaNacimiento" class="form-control" formControlName="fechaNacimiento">
-      <div *ngIf="contactoForm.get('fechaNacimiento')?.invalid && contactoForm.get('fechaNacimiento')?.touched" class="text-danger">
-        Fecha de Nacimiento es requerida.
-      </div>
+      <label for="txtFechaDeNacimiento" class="form-label">Fecha de nacimiento</label>
+      <input type="date" id="txtFechaDeNacimiento" class="form-control" formControlName="fechaNacimiento">
     </div>
-    
-    <!-- <div class="form-group">
-      <label for="genero">Género</label>
-      <select id="genero" class="form-control" formControlName="genero">
-        <option [value]="null" disabled>Seleccione género</option>
-        <option *ngFor="let gen of generos" [value]="gen">{{ gen }}</option>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-group">
+      <label for="cmbGenero"  class="form-label">Genero</label> 
+      <select id="cmbGenero" class="form-select" formControlName="genero">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="NoBinario">No Binario</option>
+        <option value="Otro">Otro</option>
+        <option value="PrefieroNoDecirlo">Prefiero no decirlo</option>
       </select>
-      <div *ngIf="contactoForm.get('genero')?.invalid && contactoForm.get('genero')?.touched" class="text-danger">
-        Género es requerido.
-      </div>
-    </div> -->
-  
-    <button type="submit" class="btn btn-primary" [disabled]="contactoForm.invalid">Agregar Contacto</button>
-  </form>
+    </div>
+  </div>
 
-<a class="btn btn-primary me-2" routerLink="">Volver al listado con RoterLink</a>
+  <div class="mb-3 d-flex justify-content-between">
+    <a class="btn btn-primary me-2 mt-2" routerLink="">Volver al listado con RoterLink</a>
+    <button type="submit" class="btn btn-primary mt-2">Agregar Contacto</button>
+  </div>
+</form>
+
+<div class="alert alert-success">
+  <div class="alert alert-success">
+    <b>Debug</b>
+
+    <hr />
+
+    {{ form.value | json }}
+
+    <hr />
+
+    {{ form.get("nombre")?.errors| json }}
+
+    <div>
+      <button (click)="cambiarDatos()">
+        Cambiar Datos
+      </button>
+    </div>
+  </div>
+</div>

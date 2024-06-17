@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { PropNames, objectProps } from '../../utils/strong-type-props';
+import { ContactoModel } from '../../models/contacto.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-formulario-agregar',
@@ -10,16 +13,41 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   templateUrl: './formulario-agregar.component.html',
   styleUrl: './formulario-agregar.component.css'
 })
-
 export class FormularioAgregarComponent {
+    form : FormGroup;
+    campos : PropNames<ContactoModel>;
 
-  // Inyectamos el servicio Router (@Autowired en Java)
-  // El modificador private en el parametro crea automaticamente el atributo en la clase
-  // Azucar Sintatica de typescript
-  constructor(private router:Router, private rutaActual:ActivatedRoute) {
+    constructor(private fb: FormBuilder) { 
+      this.form = this.fb.group({
+        documento: ['', [Validators.required, Validators.min(1000000), Validators.max(99999999)]],
+        nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+        fechaNacimiento: [''],
+        genero: ['']
+      });
 
-  }
+      this.campos = objectProps(this.form.value);
+    }
 
-  contactoForm : FormGroup = new FormGroup({});
+    cambiarDatos() {
+      // Setear un campo independiente. El get devuelve un objeto de la clase FormGroup
+      // this.form.get('nombre')?.setValue('Juan');
 
+      // Setear todos los campos del formulario
+      this.form.setValue({
+        documento: 1000001,
+        nombre: 'Juan',
+        fechaNacimiento: new Date().toISOString().split('T')[0],
+        genero: 'Masculino'
+      });
+    }
+
+    submitForm() {
+      if (this.form.valid) {
+        Swal.fire({
+          title: 'Datos del formulario',
+          text: JSON.stringify(this.form.value),
+          icon: 'info'
+        });
+      }
+    }
 }
