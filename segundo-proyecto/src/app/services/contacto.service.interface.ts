@@ -9,4 +9,5 @@ export abstract class ContactoServiceInterface {
 
     abstract eliminar(id : number) : Observable<any>;
 
+    abstract modificar(id: number, modificado: ContactoModel): Observable<any>;
 }

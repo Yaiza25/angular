@@ -9,7 +9,7 @@ import { ContactoServiceInterface } from './contacto.service.interface';
   providedIn: 'root'
 })
 
-export class ContactoService implements ContactoServiceInterface {
+export class ContactoService extends ContactoServiceInterface {
 
   // Como Base de Datos
   private contactos: ContactoModel[] = [
@@ -18,24 +18,29 @@ export class ContactoService implements ContactoServiceInterface {
     { id: 3, documento: 789, nombre: 'Pedro', fechaNacimiento: new Date(), genero: GeneroModel.Masculino }
   ]
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   // Si contactos fuera a una api
-  getContactos() : Observable<ContactoModel[]> {
+  override getContactos() : Observable<ContactoModel[]> {
     // Llamada asincronica con Promesas / Observable
     // fetch("http://blablsa").then()
     return of(this.contactos);
   }
 
-  agregar(nuevo : ContactoModel) : Observable<any> {
+  override agregar(nuevo : ContactoModel) : Observable<any> {
     nuevo.id = Math.max(...this.contactos.map(c => c.id), 0) + 1;
     this.contactos.push(nuevo);
 
     return of("OK");
   }
 
-  eliminar(id : number) : Observable<any> {
+  override eliminar(id : number) : Observable<any> {
+    return of("OK");
+  }
 
+  override modificar(id: number, modificado: ContactoModel) : Observable<any> {
     return of("OK");
   }
 
