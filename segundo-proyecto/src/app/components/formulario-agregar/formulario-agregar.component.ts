@@ -51,6 +51,13 @@ export class FormularioAgregarComponent {
         this.service.agregar(this.form.value).subscribe({
           next : () => {
             this.router.navigate(['']);
+          },
+          error : (error) => {
+            Swal.fire({
+              title: 'Error',
+              text: JSON.stringify(error.error),
+              icon: 'error'
+            })
           }
         });
       }
